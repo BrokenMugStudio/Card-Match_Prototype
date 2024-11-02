@@ -334,7 +334,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 878359199928306443}
   - {fileID: 878359199392341981}
@@ -363,6 +363,7 @@ MonoBehaviour:
   m_CardGraphic: {fileID: 878359198455745455}
   m_BackImage: {fileID: 3127109277415662234}
   m_Button: {fileID: 6197400467917545528}
+  m_Animator: {fileID: 878359199396719665}
 --- !u!95 &878359199396719665
 Animator:
   serializedVersion: 5
@@ -454,7 +455,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 2522179009466091035}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []

@@ -71,10 +71,13 @@ namespace _CardMatch.Scripts
                 if (i < requiredCardCount)
                 {
                     m_CardsPool[i].gameObject.SetActive(true);
+                    m_CardsPool[i].SetListener(CardClicked);
                     m_UsedCards[i]=m_CardsPool[i];
                 }
                 else
                 {
+                    m_CardsPool[i].SetListener(null);
+
                     m_CardsPool[i].gameObject.SetActive(false);
 
                 }
@@ -82,6 +85,11 @@ namespace _CardMatch.Scripts
             }
             
             
+        }
+
+        private void CardClicked(Card i_Card)
+        {
+            i_Card.Reveal();
         }
         
         private void IntializeLevel()
