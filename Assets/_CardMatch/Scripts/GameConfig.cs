@@ -8,5 +8,13 @@ namespace _CardMatch.Scripts
     {
         public Gradient CardColors;
         public Sprite[] CardGraphics;
+        public float InitialShowTime = 4;
+        public float CardHideDelay = 1;
+        public Vector2Int[] GridSizeByDifficulty;
+
+        public Vector2Int GetGridSize(int i_Difficulty)
+        {
+            return GridSizeByDifficulty[Mathf.Min(i_Difficulty,GridSizeByDifficulty.Length-1)];
+        }
     }
 }

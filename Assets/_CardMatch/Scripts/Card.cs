@@ -44,14 +44,12 @@ namespace _CardMatch.Scripts
     
         public void Reveal()
         {
-            Debug.Log(m_CardID+"-Reveal");
             m_IsRevealed = true;
             m_Animator.SetBool(k_Reveal,true);
         }
 
         public void RevealAnimationComplete()
         {
-            Debug.Log(m_CardID+"-RevealAnimationComplete");
 
             if (m_RevealCallback != null)
             {
@@ -59,11 +57,22 @@ namespace _CardMatch.Scripts
             }
         }
 
-       
-        public void Hide()
-        {
-            Debug.Log(m_CardID+"-Hide");
 
+        public void Hide(float i_Delay = 0)
+        {
+            if (i_Delay == 0)
+            {
+                HideAnimation();
+            }
+            else
+            {
+                Invoke(nameof(HideAnimation),i_Delay);
+            }
+
+        }
+
+        private void HideAnimation()
+        {
             m_Animator.SetBool(k_Reveal,false);
 
         }
@@ -71,7 +80,6 @@ namespace _CardMatch.Scripts
         {
             m_IsRevealed = false;
 
-            Debug.Log(m_CardID+"-HideAnimationComplete");
 
         }
         public void SetListener(Action<Card> i_ClickCallback,Action<Card> i_RevealCallback)

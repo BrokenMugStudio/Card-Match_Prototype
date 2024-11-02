@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using _CardMatch.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _CardMatch.Scripts
 {
-    public class CardGrid : MonoBehaviour
+    public class CardGrid : ScreenBase
     {
         [SerializeField]
         private List<Card> m_CardsPool;
@@ -30,30 +31,22 @@ namespace _CardMatch.Scripts
         private void OnEnable()
         {
             IntializeLevel();
+            GameManager.OnGameStart += IntializeLevel;
         }
 
         private void OnDisable()
         {
+            GameManager.OnGameStart -= IntializeLevel;
+
         }
 
-        private void Update()
-        {
-            
-            
-        }
-        [SerializeField]
-        private Vector2 m_TotalSpacing,m_ScreenMax,m_CardSize;
         [SerializeField]
         private RectTransform m_CanvasRect;
         private Vector2 ScreenResolution
         {
             get
             {
-                #if UNITY_EDITOR
-                return new Vector2(m_CanvasRect.rect.width ,
-                    m_CanvasRect.rect.height );
-                #endif
-                return new Vector2(Screen.width, Screen.height);
+                return new Vector2(m_CanvasRect.rect.width ,m_CanvasRect.rect.height );
             }
         }
         private void AdaptLayout()
@@ -70,9 +63,7 @@ namespace _CardMatch.Scripts
             
             m_GridLayout.cellSize = Vector2.one*cardSize;
             m_GridLayout.spacing = m_Spacing * Vector2.one;
-            m_TotalSpacing = new Vector2(totalSpacingX,totalSpacingY);
-            m_ScreenMax=new Vector2(screenMaxWidth,screenMaxHeight);
-            m_CardSize=new Vector2(cardSize,cardSize);
+           
 
         }
 
@@ -127,13 +118,9 @@ namespace _CardMatch.Scripts
 
         private void CardRevealed(Card i_Card)
         {
-            Debug.Log("CardRevealed");
-
             m_CardsQueue.Add(i_Card);
             if (m_CardsQueue.Count % 2 == 0)
             {
-                Debug.Log("Pair found");
-
                 var cardA=m_CardsQueue[^2];
                 var cardB=i_Card;
                 if (cardA.CardID == i_Card.CardID)
@@ -144,8 +131,8 @@ namespace _CardMatch.Scripts
                 }
                 else
                 {
-                    cardA.Hide();
-                    cardB.Hide();
+                    cardA.Hide(GameConfig.Instance.CardHideDelay);
+                    cardB.Hide(GameConfig.Instance.CardHideDelay);
                 }
 
                 m_CardsQueue.Remove(cardA);
@@ -162,11 +149,16 @@ namespace _CardMatch.Scripts
         }
         private void CheckIfCompleted()
         {
-            
+            var isComplete =(m_PairsFound.Count==m_CardsPool.Count-(m_CardsPool.Count%2));
+            if (isComplete)
+            {
+                GameManager.Instance.GameComplete();
+            }
         }
         
         private void IntializeLevel()
         {
+            m_GridSize = GameConfig.Instance.GetGridSize(GameManager.Instance.DifficultyLevel);
             InitializeCards();
             AdaptLayout();
             
