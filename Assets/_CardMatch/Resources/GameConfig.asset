@@ -61,7 +61,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1fb39ee3fbc50114abe776b252a75321, type: 3}
   - {fileID: 21300000, guid: 19b93fb45c5b1714b9a4dfcf0d618083, type: 3}
   - {fileID: 21300000, guid: ea79b51b8dd528d4ebe460580798ca12, type: 3}
-  InitialShowTime: 4
+  InitialRevealTime: 3
   CardHideDelay: 1
   GridSizeByDifficulty:
   - {x: 2, y: 2}

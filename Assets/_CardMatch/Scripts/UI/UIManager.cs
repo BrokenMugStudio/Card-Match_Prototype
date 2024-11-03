@@ -43,7 +43,7 @@ namespace _CardMatch.Scripts.UI
 
         private void OnGameReset()
         {
-            CardGrid.Hide();
+            CardGrid.Show();
             InGameScreen.Hide();
             StartScreen.Show();
             CompleteScreen.Hide();

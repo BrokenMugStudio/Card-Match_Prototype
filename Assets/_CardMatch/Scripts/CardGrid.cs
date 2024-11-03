@@ -30,7 +30,6 @@ namespace _CardMatch.Scripts
         private Vector2 m_SizeScale = Vector2.one*.8f;
         private void OnEnable()
         {
-            InitializeLevel();
             GameManager.OnGameStart += InitializeLevel;
         }
 
@@ -78,7 +77,7 @@ namespace _CardMatch.Scripts
                 for (int i = 0; i < cardsToAdd; i++)
                 {
                     var newCard = Instantiate(m_CardPrefab, m_CardHolderRect);
-                    newCard.transform.parent = m_CardHolderRect;
+                    newCard.transform.SetParent(m_CardHolderRect);
                     m_CardsPool.Add(newCard);
                 }
             }

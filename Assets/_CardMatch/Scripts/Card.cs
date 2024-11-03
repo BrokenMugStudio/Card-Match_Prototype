@@ -32,6 +32,7 @@ namespace _CardMatch.Scripts
 
         private void OnCardClick()
         {
+            Debug.Log("OnCardClick"+m_IsRevealed);
             if (m_IsRevealed)
             {
                 return;
@@ -44,7 +45,11 @@ namespace _CardMatch.Scripts
     
         public void Reveal()
         {
-            m_IsRevealed = true;
+            if (GameManager.Instance.IsGameStarted)
+            {
+                m_IsRevealed = true;
+
+            }
             m_Animator.SetBool(k_Reveal,true);
         }
 
@@ -94,6 +99,12 @@ namespace _CardMatch.Scripts
             m_BackgroundImage.color = i_Color;
             m_CardGraphic.sprite = i_Graphic;
             m_IsRevealed = false;
+            //Debug.Log("m_Animator.isInitialized="+m_Animator.isInitialized);
+            m_Animator.SetBool(k_Reveal,false);
+            m_Animator.Rebind();
+            m_Animator.Update(0f);
+            m_Animator.Play("Card_idle_Hidden", -1, 0f);
+
         }
     }
 }
