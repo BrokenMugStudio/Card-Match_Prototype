@@ -48,6 +48,7 @@ namespace _CardMatch.Scripts
                 return new Vector2(m_CanvasRect.rect.width ,m_CanvasRect.rect.height );
             }
         }
+
         private void AdaptLayout()
         {
             

@@ -32,7 +32,6 @@ namespace _CardMatch.Scripts
 
         private void OnCardClick()
         {
-            Debug.Log("OnCardClick"+m_IsRevealed);
             if (m_IsRevealed)
             {
                 return;
