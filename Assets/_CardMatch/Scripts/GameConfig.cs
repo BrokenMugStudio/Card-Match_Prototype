@@ -1,5 +1,6 @@
 using BrokenMugStudioSDK;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _CardMatch.Scripts
 {
@@ -8,7 +9,7 @@ namespace _CardMatch.Scripts
     {
         public Gradient CardColors;
         public Sprite[] CardGraphics;
-        public float InitialShowTime = 4;
+        [FormerlySerializedAs("InitialShowTime")] public float InitialRevealTime = 4;
         public float CardHideDelay = 1;
         public Vector2Int[] GridSizeByDifficulty;
 

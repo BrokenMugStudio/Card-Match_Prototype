@@ -9,8 +9,22 @@ namespace _CardMatch.Scripts
         public static GameEvent OnGameComplete = delegate { };
         public static GameEvent OnGameReset = delegate { };
         
+        
+        public static GameEvent OnCardClicked = delegate { };
+        public static GameEvent OnPairFound = delegate { };
+        public static GameEvent OnPairFail = delegate { };
+       
+ 
         public int DifficultyLevel;
         public bool IsGameStarted;
+        public int CurrentScore;
+        public int CurrentCombo;
+
+        public int HighScore
+        {
+            get => PlayerPrefs.GetInt(nameof(HighScore), 0);
+            set => PlayerPrefs.SetInt(nameof(HighScore), value);
+        }
 
         public override void Start()
         {
@@ -20,6 +34,9 @@ namespace _CardMatch.Scripts
 
         public void StartGame()
         {
+            CurrentScore = 0;
+            CurrentCombo = 0;
+            
             IsGameStarted = false;
             if (OnGameStart != null)
             {
@@ -40,5 +57,33 @@ namespace _CardMatch.Scripts
                 OnGameReset?.Invoke();
             }
         }
+
+        public void PairFound()
+        {
+            CurrentCombo++;
+            CurrentScore+=CurrentCombo;
+            HighScore = CurrentScore>HighScore? CurrentScore : HighScore;
+            if (OnPairFound != null)
+            {
+                OnPairFound?.Invoke();
+            }
+        }
+
+        public void PairFail()
+        {
+            CurrentCombo = 0;
+            if (OnPairFail != null)
+            {
+                OnPairFail?.Invoke();
+            }
+        }
+        public void CardClicked()
+        {
+            if (OnCardClicked != null)
+            {
+                OnCardClicked?.Invoke();
+            }
+        }
+        
     }
 }

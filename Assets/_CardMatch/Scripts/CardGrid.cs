@@ -30,13 +30,13 @@ namespace _CardMatch.Scripts
         private Vector2 m_SizeScale = Vector2.one*.8f;
         private void OnEnable()
         {
-            IntializeLevel();
-            GameManager.OnGameStart += IntializeLevel;
+            InitializeLevel();
+            GameManager.OnGameStart += InitializeLevel;
         }
 
         private void OnDisable()
         {
-            GameManager.OnGameStart -= IntializeLevel;
+            GameManager.OnGameStart -= InitializeLevel;
 
         }
 
@@ -113,11 +113,22 @@ namespace _CardMatch.Scripts
 
         private void CardClicked(Card i_Card)
         {
-            i_Card.Reveal();
+            if (GameManager.Instance.IsGameStarted)
+            {
+                GameManager.Instance.CardClicked();
+
+                i_Card.Reveal();
+
+            }
         }
 
         private void CardRevealed(Card i_Card)
         {
+            
+            if (!GameManager.Instance.IsGameStarted)
+            {
+               return;
+            }
             m_CardsQueue.Add(i_Card);
             if (m_CardsQueue.Count % 2 == 0)
             {
@@ -127,12 +138,16 @@ namespace _CardMatch.Scripts
                 {
                     m_PairsFound.Add(cardA);
                     m_PairsFound.Add(cardB);
+                    GameManager.Instance.PairFound();
                     CheckIfCompleted();
+                    
                 }
                 else
                 {
                     cardA.Hide(GameConfig.Instance.CardHideDelay);
                     cardB.Hide(GameConfig.Instance.CardHideDelay);
+                    GameManager.Instance.PairFail();
+
                 }
 
                 m_CardsQueue.Remove(cardA);
@@ -156,12 +171,31 @@ namespace _CardMatch.Scripts
             }
         }
         
-        private void IntializeLevel()
+        private void InitializeLevel()
         {
             m_GridSize = GameConfig.Instance.GetGridSize(GameManager.Instance.DifficultyLevel);
             InitializeCards();
             AdaptLayout();
-            
+            RevealAllCards(GameConfig.Instance.InitialRevealTime);
+        }
+
+        private void RevealAllCards(float i_Duration)
+        {
+            for (int i = 0; i < m_UsedCards.Length; i++)
+            {
+                m_UsedCards[i].Reveal();
+            }
+            Invoke(nameof(HideAllCards),i_Duration);
+        }
+
+        private void HideAllCards()
+        {
+            for (int i = 0; i < m_UsedCards.Length; i++)
+            {
+                m_UsedCards[i].Hide();
+            }
+
+            GameManager.Instance.IsGameStarted = true;
         }
     }
 }
